@@ -1,0 +1,78 @@
+name: esop
+services:
+  redis-esop:
+    image: bitnami/redis:latest
+    container_name: redis-esop
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_PASSWORD: password
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - esop
+    volumes:
+      - redis-esop-data:/data
+
+  mysql-esop:
+    image: mysql:oraclelinux9
+    container_name: mysql-esop
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_PORT_NUMBER: 3306
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: esop
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -P 3306 -u root -ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - esop
+    volumes:
+      - mysql-esop-data:/bitnami/mysql/data
+
+  minio-esop:
+    image: minio/minio:latest
+    container_name: minio-esop
+    ports:
+      - "9001:9000"
+      - "9002:9002"
+    environment:
+      - MINIO_ROOT_USER=aws_access_key_id
+      - MINIO_ROOT_PASSWORD=aws_secret_access_key
+      - MINIO_REGION=us-east-1
+    networks:
+      - esop
+    volumes:
+      - minio-esop-data:/data
+    command: server /data --console-address ":9002"
+
+  smtp4dev-esop:
+    image: rnwood/smtp4dev:v3.1
+    container_name: smtp4dev-esop
+    ports:
+      - "3001:80"
+      - "25:25"
+    volumes:
+      - smtp4dev-esop-data:/smtp4dev
+    environment:
+      - APP_BASEURL=http://localhost:3001
+
+volumes:
+  redis-esop-data:
+    external: false
+  mysql-esop-data:
+    external: false
+  minio-esop-data:
+    external: false
+  smtp4dev-esop-data:
+    external: false
+
+networks:
+  esop:
+    driver: bridge

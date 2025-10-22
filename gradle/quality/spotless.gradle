@@ -1,0 +1,26 @@
+spotless {
+	java {
+		importOrderFile   'config/spotless/spotless.importorder'
+		licenseHeaderFile 'config/spotless/spotless.license.java'
+		eclipse().configFile 'config/spotless/spotless.esop.xml'
+		removeUnusedImports()
+		endWithNewline()
+		indentWithTabs()
+		custom 'Long literal fix', { it.replaceAll('([0-9_]+) [Ll]', '$1L') }
+		custom 'Lambda fix', { it.replace('} )', '})').replace('} ,', '},') }
+		custom 'Trim trailing whitespace', { it.endsWith('* ') ? it : it.replaceAll('(?<=[^ \\t])[ \\t]+$', '') }
+		replaceRegex 'Add space before comment asterisk', '^(\\t*)\\*', '$1 *'
+	}
+
+	sql {
+		target '**/*.sql'
+		trimTrailingWhitespace()
+		indentWithSpaces(4)
+		endWithNewline()
+	}
+
+	groovyGradle {
+		target '*.gradle'
+		greclipse()
+	}
+}

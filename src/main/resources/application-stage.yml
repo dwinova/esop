@@ -1,0 +1,44 @@
+log:
+  config:
+    path: ${LOG_STORE_PATH:/home/sotatek/esop/logs}
+server:
+  port: 8080
+spring:
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+      username: ${REDIS_USER_NAME:}
+      password: ${REDIS_PASSWORD:password}
+      database: ${REDIS_DATABASE:0}
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/esop}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:password}
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 10
+      max-lifetime: 1800000
+  flyway:
+    enabled: false
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+    show-sql: true
+    generate-ddl: false
+    open-in-view: false
+  main:
+    banner-mode: log
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+esop:
+  security:
+    aes256:
+      password: ${AES_256_PASSWORD:b8c95ca31a2e452e6069ae6135167a1eb2c5a40a76ad802c130e3dec124f5312}
+      salt: ${AES_256_SALT:5b9917a3eea01f7d24be1b326ef1cc30627516a3be9460911f0bd33ecca4a053}
+  jwt:
+    secret: ${JWT_SECRET:f9401461ba44b07924857bc5f87707341e08a423d8b3781c6281bb5f8b651b6cbe233b1f898b8f6d53ebc9ff6088e272a94f340be51ae9cb5c8baf8e573843e1136d4b6b43ab9758c27e5f53546a9e256a584011061a42926d3b980782c4fc18fc9fc8d576b3d55b278d179f9ba59bc9282a883a458d5a26cc8ed82450d7513eddb0e57087546102f0b29b273135af262727818be82ed61f0fb8f530ceaba27fd2ef28fc7449f21a0b294b121ccd5925851f3bdfd84f2cd66714b7b3cf2aae98d45c088e9ccdcab4a5fb541452cf18a64f4a7af6539f9a1933a8f51fe62c30ff8ef3a1b8746a8ecb2980dd849335ff3a73bbc2f6d0e281502e6378c4cfa22d0c}
