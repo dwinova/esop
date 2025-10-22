@@ -1,0 +1,19 @@
+# Add these configurations to your main application.yml
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+# Vault Configuration
+vault:
+  uri: ${VAULT_URI:http://localhost:8200}
+  token: ${VAULT_TOKEN:root}
+  transit:
+    enabled: true
+    key-name: ${VAULT_KEY_NAME:aes256-key}
+
+# MinIO Configuration
+minio:
+  url: ${MINIO_URL:http

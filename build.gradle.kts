@@ -63,6 +63,10 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+    implementation("org.springframework.vault:spring-vault-core:3.1.1")
+    implementation("io.minio:minio:8.5.7")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 apply(from = "gradle/quality/spotless.gradle")
