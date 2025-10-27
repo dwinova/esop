@@ -56,3 +56,16 @@ minio:
   access-key: ${MINIO_ACCESS_KEY:aws_access_key_id}
   secret-key: ${MINIO_SECRET_KEY:aws_secret_access_key}
   bucket: ${MINIO_BUCKET:sensitive-data}
+
+  email:
+    from: ${EMAIL_FROM:noreply@localhost}
+    sender-name: ${EMAIL_SENDER_NAME:ESOP System}
+    password-reset-link: ${EMAIL_PASSWORD_RESET_LINK:http://localhost:3000/reset-password?token=}
+    email-verification-link: ${EMAIL_VERIFICATION_LINK:http://localhost:3000/verify-email?token=}
+    templates-path: classpath:templates/email/
+
+  spring:
+    cloud:
+      aws:
+        ses:
+          enabled: ${EMAIL_SES_ENABLED:false}

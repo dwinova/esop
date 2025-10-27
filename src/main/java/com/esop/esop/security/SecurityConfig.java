@@ -56,6 +56,7 @@ public class SecurityConfig {
 			.requestMatchers("/api/auth/email-login").permitAll()
 			.requestMatchers("/swagger-ui/**").permitAll()
 			.requestMatchers("/v3/api-docs/**").permitAll()
+			.requestMatchers("/api/dev/**").permitAll()
 			// Required ROLE_ADMIN paths
 			.requestMatchers("/api/admin/**").hasAuthority(ROLE_ADMIN)
 			// Required ROLE_USER paths

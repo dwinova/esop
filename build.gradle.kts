@@ -67,12 +67,30 @@ dependencies {
     implementation("io.minio:minio:8.5.7")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("software.amazon.awssdk:ses:2.25.1")
+    implementation("io.awspring.cloud:spring-cloud-aws-ses:3.1.1")
 }
 
 apply(from = "gradle/quality/spotless.gradle")
 
-tasks.register<FlywayMigrateTask>("migrateDb") {
+tasks.register("migrateDb") {
+    group = "database"
+    description = "Run Flyway database migrations"
+
+    dependsOn("flywayMigrate")
+
+    doFirst {
+        println("🔧 Starting Database Migration...")
+    }
+
+    doLast {
+        println("✅ Migration completed!")
+    }
+}
+
+flyway {
     url = System.getenv("DB_URL") ?: "jdbc:mysql://localhost:3306/esop"
     user = System.getenv("DB_USER") ?: "root"
     password = System.getenv("DB_PASSWORD") ?: "password"
+    locations = arrayOf("filesystem:src/main/resources/db/migration")
 }
